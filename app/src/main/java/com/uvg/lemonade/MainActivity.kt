@@ -73,49 +73,54 @@ fun LemonadeApp() {
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
+            // Controla la lógica de navegación entre los pasos del proceso
             when (currentStep) {
                 1 -> {
+                    // Paso 1: Selección de un limón del árbol
                     LemonTextAndImage(
-                        textLabelResourceId = R.string.lemon_select,
-                        drawableResourceId = R.drawable.lemon_tree,
-                        contentDescriptionResourceId = R.string.lemon_tree_content_description,
+                        textLabelResourceId = R.string.lemon_select,// Texto que explica la acción
+                        drawableResourceId = R.drawable.lemon_tree, // Imagen del árbol de limones
+                        contentDescriptionResourceId = R.string.lemon_tree_content_description, // Descripción de la imagen para accesibilidad
                         onImageClick = {
                             currentStep = 2
-                            squeezeCount = (2..4).random()
+                            squeezeCount = (2..6).random() // Genera aleatoriamente cuántas veces hay que exprimir el limón
                         }
                     )
                 }
                 2 -> {
+                    // Paso 2: Exprimir el limón
                     LemonTextAndImage(
                         textLabelResourceId = R.string.lemon_squeeze,
                         drawableResourceId = R.drawable.lemon_squeeze,
                         contentDescriptionResourceId = R.string.lemon_content_description,
                         onImageClick = {
-                            squeezeCount--
+                            squeezeCount-- // Decrementa el número de veces que queda exprimir
                             if (squeezeCount == 0) {
-                                currentStep = 3
+                                currentStep = 3 // Si se ha exprimido suficiente, avanza al siguiente paso
                             }
                         }
                     )
                 }
 
                 3 -> {
+                    // Paso 3: Beber la limonada
                     LemonTextAndImage(
-                        textLabelResourceId = R.string.lemon_drink,
-                        drawableResourceId = R.drawable.lemon_drink,
+                        textLabelResourceId = R.string.lemon_drink, // Texto que indica beber la limonada
+                        drawableResourceId = R.drawable.lemon_drink, // Imagen de beber limonada
                         contentDescriptionResourceId = R.string.lemonade_content_description,
                         onImageClick = {
-                            currentStep = 4
+                            currentStep = 4 // Avanza al último paso
                         }
                     )
                 }
                 4 -> {
+                    // Paso 4: Vaso vacío, reiniciar el proceso
                     LemonTextAndImage(
                         textLabelResourceId = R.string.lemon_empty_glass,
                         drawableResourceId = R.drawable.lemon_restart,
                         contentDescriptionResourceId = R.string.empty_glass_content_description,
                         onImageClick = {
-                            currentStep = 1
+                            currentStep = 1 // Reinicia el proceso volviendo al paso 1
                         }
                     )
                 }
@@ -123,14 +128,14 @@ fun LemonadeApp() {
         }
     }
 }
-
+// Función composable que muestra un texto y una imagen, con un comportamiento al hacer clic
 @Composable
 fun LemonTextAndImage(
-    textLabelResourceId: Int,
-    drawableResourceId: Int,
-    contentDescriptionResourceId: Int,
-    onImageClick: () -> Unit,
-    modifier: Modifier = Modifier
+    textLabelResourceId: Int, // ID del recurso de texto para el texto que describe la acción
+    drawableResourceId: Int, // ID del recurso drawable para la imagen a mostrar
+    contentDescriptionResourceId: Int, // ID del recurso de texto para la descripción de accesibilidad de la imagen
+    onImageClick: () -> Unit, // Lambda que define la acción a realizar cuando se hace clic en la imagen
+    modifier: Modifier = Modifier // Modificador opcional para aplicar al contenedo
 ) {
     Box(
         modifier = modifier
@@ -140,13 +145,15 @@ fun LemonTextAndImage(
             verticalArrangement = Arrangement.Center,
             modifier = Modifier.fillMaxSize()
         ) {
+            // Botón que contiene una imagen y que ejecuta onImageClick cuando se presiona
             Button(
                 onClick = onImageClick,
                 shape = RoundedCornerShape(dimensionResource(R.dimen.button_corner_radius)),
                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.tertiaryContainer)
             ) {
+                // Imagen que se muestra dentro del botón
                 Image(
-                    painter = painterResource(drawableResourceId),
+                    painter = painterResource(drawableResourceId), // Asigna la imagen a partir del recurso drawable
                     contentDescription = stringResource(contentDescriptionResourceId),
                     modifier = Modifier
                         .width(dimensionResource(R.dimen.button_image_width))
@@ -154,6 +161,7 @@ fun LemonTextAndImage(
                         .padding(dimensionResource(R.dimen.button_interior_padding))
                 )
             }
+            // Texto que aparece debajo de la imagen, describiendo la acción actual
             Spacer(modifier = Modifier.height(dimensionResource(R.dimen.padding_vertical)))
             Text(
                 text = stringResource(textLabelResourceId),
