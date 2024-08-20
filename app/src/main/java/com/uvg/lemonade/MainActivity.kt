@@ -34,15 +34,16 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.uvg.lemonade.ui.theme.LemonadeTheme
-
+//Clase principal que hereda componentActivity
 class MainActivity : ComponentActivity() {
-
+    // Método onCreate: punto de entrada para la actividad cuando se crea
     override fun onCreate(savedInstanceState: Bundle?) {
-        enableEdgeToEdge()
-        super.onCreate(savedInstanceState)
+        enableEdgeToEdge() // Activa el diseño de pantalla completa sin bordes
+        super.onCreate(savedInstanceState) // Llama al método onCreate de la clase base
         setContent {
-            LemonadeTheme {
-                LemonadeApp()
+            // Establece el contenido de la actividad utilizando Jetpack Compose
+            LemonadeTheme { // Aplica el tema definido para la aplicación
+                LemonadeApp() // Llama a la función composable principal que construye la interfaz de usuario
             }
         }
     }
@@ -51,9 +52,9 @@ class MainActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LemonadeApp() {
-
+    // Variable mutable que guarda el estado actual del paso en el proceso de hacer limonada
     var currentStep by remember { mutableStateOf(1) }
-
+    // Variable mutable que guarda el conteo de cuántas veces se debe exprimir el limón
     var squeezeCount by remember { mutableStateOf(0) }
 
     Scaffold(
@@ -61,7 +62,7 @@ fun LemonadeApp() {
             CenterAlignedTopAppBar(
                 title = {
                     Text(
-                        text = "Lemonade",
+                        text = "Lemonade", // Texto que aparece en la barra superior
                     )
                 },
             )
